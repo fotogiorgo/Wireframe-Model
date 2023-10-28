@@ -22,7 +22,7 @@ The program also accepts following user input:
 * Q,E keys to rotate around the models Z axis.
 * Arrow keys to move the model inside of the window.
 * Mouse scroll to zoom in and out.
-* +,- keys to increase or decrease the models hight.
+* +,- keys to increase or decrease the models height.
 
 These operations are shown in this gif:
 
