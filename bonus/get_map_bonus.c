@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 10:20:24 by jofoto            #+#    #+#             */
-/*   Updated: 2023/05/08 20:51:15 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/10/28 20:15:21 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static s_vector    *realloc_vector(s_vector    *map)
 {
     s_vector    *new_map;
 
-    new_map = (s_vector *)malloc(sizeof(s_vector)); //leaking
+    new_map = (s_vector *)malloc(sizeof(s_vector));
     if (new_map == 0)
     {
         free_map(map->map, map->rows);

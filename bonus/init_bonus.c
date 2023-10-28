@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 20:18:43 by jofoto            #+#    #+#             */
-/*   Updated: 2023/05/17 17:21:35 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/10/28 20:15:12 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	init_map(t_data	*d, char *fpath)
 	d->map->rows_cap = 5;
 	
 	if (get_map(d, fpath) == 0)
-		return ; //in the future exit and free everything
+		return ;
 }
 
 void	init_coords(t_data *d)

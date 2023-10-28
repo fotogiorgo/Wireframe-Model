@@ -6,33 +6,11 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:37:53 by jofoto            #+#    #+#             */
-/*   Updated: 2023/05/20 20:25:27 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/10/28 20:13:50 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_bonus.h"
-
-/*void	print_map(s_vector *map)
-{
-	int i = 0;
-	int j = 0;
-	
-	printf("rows: %i\n", map->rows);
-	printf("rows_cap: %i\n", map->rows_cap);
-	printf("cols: %i\n", map->cols);
-	
-	while(j < map->rows)
-	{
-		while (i < map->cols)
-		{
-			printf("%i ", map->map[j][i]);
-			i++;
-		}
-		printf("\n");
-		i = 0;
-		j++;
-	}
-} */
 
 int	map_x(t_data *d)
 {
@@ -137,7 +115,6 @@ int	mouse_hook(int key, int x, int y, t_data *d)
 int	render_next_frame(t_data *d)
 {	
 	ft_bzero(d->mlx.img.addr, WINDOW_HEIGHT * (d->mlx.img.line_length * 0.95) + WINDOW_WIDTH * d->mlx.img.bits_per_pixel);
-	//blah(d->mlx.img, WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
 	while (map_y(d))
 		connect_points(d);
 	while (map_x(d))
@@ -152,61 +129,13 @@ int	destroy(t_data *d)
 	exit(0);
 }
 
-/* int	validate_thread_input(char *line)
-{
-	int	i;
-	int	spaces;
-
-	i = 0;
-	spaces = 0;
-	while(line[i] != '\n')
-	{
-		if (line[i] == ' ')
-			spaces++;
-		else if(ft_isdigit(line[i]) == 0)
-				return (0);
-		i++;
-	}
-	if(spaces > 2)
-		return (0);
-	return (1);
-}
-
-void	*routine(void *data)
-{
-	t_data	*d;
-	char	*line;
-	int		i;
-	
-	d = (t_data *)data;
-	while(1)
-	{
-		line = get_next_line(0);
-		if (!validate_thread_input(line))
-		{
-			write(1, "Wrong Input!\n", 14);
-			write(1, "Try giving an angle for x, y and z, respectively, seperated by a space.\n", 72);
-			write(1, "e.g: 45 -45 30\n", 15);
-			free(line);
-			continue ;
-		}
-		d->angle.x = ft_atoi(line);
-		d->angle.y = ft_atoi(ft_strchr(line, ' ') + 1);
-		d->angle.z = ft_atoi(ft_strrchr(line, ' ') + 1);
-		free(line);
-	}
-} */
-
-/*when you get map check if ret == 0 then exit*/
 int	main(int argc, char **argv)
 {
 	t_data	d;
-	//pthread_t thread;
 
 	if (argc == 1)
 		return (0);
 	init(&d, argv[1]);
-	//pthread_create(&thread, NULL, routine, &d);
 	mlx_hook(d.mlx.window, 2, 1L<<0, key_down_hook, &d);
 	mlx_hook(d.mlx.window, 17, 1L<<0, destroy, &d);
 	mlx_mouse_hook(d.mlx.window, mouse_hook, &d);

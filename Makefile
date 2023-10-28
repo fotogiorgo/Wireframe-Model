@@ -6,13 +6,13 @@
 #    By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/14 12:41:19 by jofoto            #+#    #+#              #
-#    Updated: 2023/05/20 14:38:47 by jofoto           ###   ########.fr        #
+#    Updated: 2023/10/28 19:49:08 by jofoto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBRARIES	=	-lmlx -framework OpenGL -framework AppKit
 
-FLAGS		=	-Wall -Wextra -Werror -g -fsanitize=address
+FLAGS		=	-Wall -Wextra -Werror -Ofast
 
 SRC			=	src/fdf.c src/draw_img.c src/rotate.c src/get_map.c src/init.c src/exit_handling.c
 
@@ -43,7 +43,7 @@ $(NAME_BONUS): $(OBJ_BONUS) $(LIBFT)
 	cc -o $(NAME_BONUS) $(OBJ_BONUS) $(FLAGS) $(LIBFT) $(LIBRARIES)
 
 $(OBJ_BONUS): %.o: %.c
-	cc -c $? -o $@
+	cc $(FLAGS) -c $? -o $@
 
 $(LIBFT):
 	cd libft && $(MAKE)

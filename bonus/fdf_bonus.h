@@ -6,7 +6,7 @@
 /*   By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 22:17:58 by jofoto            #+#    #+#             */
-/*   Updated: 2023/05/20 13:34:30 by jofoto           ###   ########.fr       */
+/*   Updated: 2023/10/28 20:15:50 by jofoto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <pthread.h>
 #include "../libft/libft.h"
-//#define GRID_WIDTH 50
 #define WINDOW_WIDTH 1920
 #define WINDOW_HEIGHT 1080
 #define RADIANT_CONV 0.01745329251
@@ -48,7 +47,7 @@ typedef struct s_con_pnt_vars
 
 typedef	struct s_angles
 {
-	int		x; // check for overflow
+	int		x;
 	int		y;
 	int		z;
 	float	x_rotation_axis;
@@ -65,7 +64,6 @@ typedef	struct s_vector
 	int	highest_z;
 	int	rows_cap;
 }				s_vector;
-//initialize map with rows/cols = 0 and rows_cap = 1
 
 typedef	struct s_mlx_data
 {
