@@ -6,14 +6,14 @@ A program that that turns an input file to a Wireframe model.
 
 The input file is a simple text file that has numbers seperated by spaces e.g.
 
-[](.showfiles/input_file.png)
+![](.showfiles/input_file.png)
 
 The numbers represent the height of that specific point.
 The result of this specific input looks like this:
 
-[](.showfiles/output_pyramid1.png)
+![](.showfiles/output_pyramid1.png)
 
-[](.showfiles/output_pyramid2.png)
+![](.showfiles/output_pyramid2.png)
 
 The program also accepts following user input:
 
@@ -26,7 +26,7 @@ The program also accepts following user input:
 
 These operations are shown in this gif:
 
-[](.showfiles/show.gif)
+![](.showfiles/show.gif)
 
 ## How?
 
