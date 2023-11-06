@@ -33,3 +33,5 @@ These operations are shown in this gif:
 This program is entirely written in C, using MiniLibX and my [LibFT](https://github.com/fotogiorgo/libft) library.
 
 MiniLibX is a small library which implements some basic functions that allow you to open a window and draw pixels in it.
+
+To see a cool extension of this project, go [here](https://github.com/fotogiorgo/Wireframe-Model-Controller).
