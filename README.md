@@ -1,6 +1,6 @@
 # Wireframe Model
 
-	A program that that turns an input file to a Wireframe Model.
+	A program that that turns a DSV file of an area's elevations, to a Wireframe Model.
 
 ## More details
 
