@@ -14,25 +14,11 @@
 
 void	my_mlx_pixel_put(int x, int y, int color, t_data *d)
 {
-	char	*dst;
-
 	x += WINDOW_WIDTH / d->angle.x_rotation_axis;
 	y += WINDOW_HEIGHT / d->angle.y_rotation_axis;
     if (x < WINDOW_WIDTH && y < WINDOW_HEIGHT * 0.95 && x >= 0 && y >= 0)
     {
-	    dst = d->mlx.img.addr + (y * d->mlx.img.line_length + x * (d->mlx.img.bits_per_pixel / 8));
-	    *(unsigned int*)dst = color;
-    }
-}
-
-void	my_mlx_pixel_put2(t_img_data *img, int x, int y, int color)
-{
-	char	*dst;
-
-    if (x < WINDOW_WIDTH && y < WINDOW_HEIGHT && x >= 0 && y >= 0)
-    {
-	    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	    *(unsigned int*)dst = color;
+        mlx_put_pixel(d->img, x, y, color);
     }
 }
 

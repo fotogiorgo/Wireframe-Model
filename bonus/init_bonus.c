@@ -29,10 +29,24 @@ void	get_vars(t_point point0, t_point point1,t_conn_pnts_vars *vars)
 
 void	init_mlx(t_data *d)
 {
-    d->mlx.mlx = mlx_init();
-	d->mlx.window = mlx_new_window(d->mlx.mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "new_window2");
-	d->mlx.img.img = mlx_new_image(d->mlx.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	d->mlx.img.addr = mlx_get_data_addr(d->mlx.img.img, &d->mlx.img.bits_per_pixel, &d->mlx.img.line_length, &d->mlx.img.endian);
+    if(!(d->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, "Model", false)))
+    {
+        int i = write(2, "MLX init error\n", 15);
+        i++;
+        exit(1); // handle error
+    }
+    if(!(d->img = mlx_new_image(d->mlx, WINDOW_WIDTH, WINDOW_HEIGHT)))
+    {
+        int i = write(2, "MLX image init error\n", 21);
+        i++;
+        exit(1); // handle error
+    }
+    if(mlx_image_to_window(d->mlx, d->img, 0, 0) == -1)
+    {
+        int i = write(2, "MLX image to window init error\n", 31);
+        i++;
+        exit(1); // handle error
+    }
 }
 
 void	init_map(t_data	*d, char *fpath)

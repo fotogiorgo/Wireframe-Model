@@ -1,63 +1,57 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jofoto <jofoto@student.hive.fi>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/14 12:41:19 by jofoto            #+#    #+#              #
-#    Updated: 2023/10/28 19:49:08 by jofoto           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	:= wireframe
 
-LIBRARIES	=	-lmlx -framework OpenGL -framework AppKit
+SRC		:=	bonus/fdf_bonus.c \
+			bonus/draw_img_bonus.c \
+			bonus/rotate_bonus.c \
+			bonus/get_map_bonus.c \
+			bonus/init_bonus.c \
+			bonus/exit_handling_bonus.c
 
-FLAGS		=	-Wall -Wextra -Werror -Ofast
+SRCDIR := ./src
+OBJ := $(SRC:%.c=%.o)
+DEP := $(OBJ:%.o=%.d)
 
-SRC			=	src/fdf.c src/draw_img.c src/rotate.c src/get_map.c src/init.c src/exit_handling.c
-
-SRC_BONUS	=	bonus/fdf_bonus.c bonus/draw_img_bonus.c bonus/rotate_bonus.c bonus/get_map_bonus.c \
-				bonus/init_bonus.c bonus/exit_handling_bonus.c
-
-OBJ			=	$(SRC:%.c=%.o)
-
-OBJ_BONUS	=	$(SRC_BONUS:%.c=%.o)
-
-NAME		=	fdf
-
-NAME_BONUS	=	fdf_bonus
-
-LIBFT		=	libft/libft.a
+MLX_LIB			:= -lglfw -L ~/.brew/opt/glfw/lib -lm
+MLX_NAME		:= ./MLX42/build/libmlx42.a
+FT_DIR			:= ./libft
+FT_SRC_DIR		:= $(FT_DIR)
+LIBFT_NAME		:= $(FT_DIR)/libft.a
+LFT_FLAG		:= -L$(FT_DIR)/ -lft
+CC				:= cc
+SHARED			:= -Wall -Wextra -Werror -Ofast -march=native
+INCLUDE_MACOS	:= -I$(FT_SRC_DIR) $(MLX_NAME) $(MLX_LIB)
+INCLUDE_LINUX	:= -I$(FT_SRC_DIR) $(MLX_NAME) $(MLX_LIB)
+INCLUDE_LIBFT	:= -I./libft/
+INCLUDE_MLX		:= -I./MLX42/include/MLX42/
+INCLUDE_LOCAL	:= -I./bonus/
+HEADERS			:= $(INCLUDE_LIBFT) $(INCLUDE_MLX) $(INCLUDE_LOCAL)
+CFLAGS 			:= $(SHARED) $(INCLUDE_MACOS) $(HEADERS)
 
 all: $(NAME)
 
-bonus: $(NAME_BONUS)
+$(NAME): $(LIBFT_NAME) $(MLX_NAME) $(OBJ)
+	$(CC) $(OBJ) $(CFLAGS) $(LFT_FLAG) -o $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
-	cc -o $(NAME) $(OBJ) $(FLAGS) $(LIBFT) $(LIBRARIES)
+$(LIBFT_NAME):
+	make -C ./libft
 
-$(OBJ): %.o: %.c
-	cc -c $? -o $@
+$(MLX_NAME):
+	cd ./MLX42 && cmake -B build && cmake --build build -j4
 
-$(NAME_BONUS): $(OBJ_BONUS) $(LIBFT)
-	cc -o $(NAME_BONUS) $(OBJ_BONUS) $(FLAGS) $(LIBFT) $(LIBRARIES)
+-include $(DEP)
 
-$(OBJ_BONUS): %.o: %.c
-	cc $(FLAGS) -c $? -o $@
-
-$(LIBFT):
-	cd libft && $(MAKE)
+$(OBJDIR)/%.o: %.c
+	@$(shell [ ! -d $(@D) ] && mkdir -p $(@D))
+	$(CC) $(SHARED) $(HEADERS) -MMD -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
-	rm -f $(OBJ_BONUS)
-	cd libft && $(MAKE) clean
+	make clean -C $(FT_DIR)
+	/bin/rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -f $(NAME)
-	rm -f $(NAME_BONUS)
-	cd libft && $(MAKE) fclean
+	make fclean -C $(FT_DIR)
+	/bin/rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re noflag debug
+.PHONY: all clean fclean re bonus

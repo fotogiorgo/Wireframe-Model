@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf_bonus.h"
+#include <sys/types.h>
 
 int	map_x(t_data *d)
 {
@@ -68,20 +69,29 @@ int	map_y(t_data *d)
 	return (1);
 }
 
-int	key_down_hook(int key, t_data *d)
+void	key_down_hook(void *ptr)
 {
-	if (key == 53)
-		error(d);
-	if (key == 0 || key == 2 || key == 1 || key == 13 || key == 12 || key == 14)
-	{
-		d->angle.x += 3 * (key == 13);
-		d->angle.x -= 3 * (key == 1);
-		d->angle.y += 3 * (key == 2);
-		d->angle.y -= 3 * (key == 0);
-		d->angle.z += 3 * (key == 14);
-		d->angle.z -= 3 * (key == 12);
-	}
-	else if (key == 123 || key == 124 || key == 125 || key == 126)
+    t_data *d = ptr;
+
+	if (mlx_is_key_down(d->mlx, MLX_KEY_ESCAPE))
+        error(d);
+	if (mlx_is_key_down(d->mlx, MLX_KEY_A))
+        d->angle.y -= 3;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_D))
+        d->angle.y += 3;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_W))
+        d->angle.x += 3;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_S))
+        d->angle.x -= 3;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_Q))
+        d->angle.z -= 3;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_E))
+        d->angle.z += 3;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_EQUAL))
+        d->z_multipliar++;
+	if (mlx_is_key_down(d->mlx, MLX_KEY_MINUS))
+        d->z_multipliar--;
+	/*else if (key == 123 || key == 124 || key == 125 || key == 126)
 	{
 		d->angle.x_rotation_axis -= 12.0/WINDOW_HEIGHT * (float)(key == 124);
 		d->angle.x_rotation_axis += 12.0/WINDOW_HEIGHT * (float)(key == 123);
@@ -92,40 +102,34 @@ int	key_down_hook(int key, t_data *d)
 	{
 		d->z_multipliar += (key == 69);
 		d->z_multipliar -= (key == 78);
-	}
-	return (1);
+	}*/
 }
 
-int	mouse_hook(int key, int x, int y, t_data *d)
+void	scroll_hook(double xdelta, double ydelta, void *ptr)
 {
-	(void)x;
-	(void)y;
-	if (key == 4 || (key == 5 && d->grid_width > 0))
-	{
-		d->grid_width += (key == 4) * 2;
-		d->x_offset -=  (key == 4) * d->map->cols;
-		d->y_offset -= (key == 4) * d->map->rows;
-		d->grid_width -= (key == 5) * 2;
-		d->x_offset +=  (key == 5) * d->map->cols;
-		d->y_offset += (key == 5) * d->map->rows;
-	}
-	return (1);
+	t_data *d = ptr;
+    (void)xdelta;
+
+		d->grid_width += ydelta * 2;
+		d->x_offset -=  ydelta * d->map->cols;
+		d->y_offset -= ydelta * d->map->rows;
 }
 
-int	render_next_frame(t_data *d)
+void	render_next_frame(void *ptr)
 {	
-	ft_bzero(d->mlx.img.addr, WINDOW_HEIGHT * (d->mlx.img.line_length * 0.95) + WINDOW_WIDTH * d->mlx.img.bits_per_pixel);
+    t_data *d = ptr;
+
+	ft_bzero(d->img->pixels, WINDOW_HEIGHT * WINDOW_WIDTH * sizeof(int));
 	while (map_y(d))
 		connect_points(d);
 	while (map_x(d))
 		connect_points(d);
-	mlx_put_image_to_window(d->mlx.mlx, d->mlx.window, d->mlx.img.img, 0, 0);
-	return (1);
+	//mlx_put_image_to_window(d->mlx.mlx, d->mlx.window, d->mlx.img.img, 0, 0);
 }
 
-int	destroy(t_data *d)
+void	destroy(void *d)
 {
-	error(d);
+	error((t_data*)d);
 	exit(0);
 }
 
@@ -136,10 +140,10 @@ int	main(int argc, char **argv)
 	if (argc == 1)
 		return (0);
 	init(&d, argv[1]);
-	mlx_hook(d.mlx.window, 2, 1L<<0, key_down_hook, &d);
-	mlx_hook(d.mlx.window, 17, 1L<<0, destroy, &d);
-	mlx_mouse_hook(d.mlx.window, mouse_hook, &d);
-	mlx_loop_hook(d.mlx.mlx, render_next_frame, &d);
-	mlx_loop(d.mlx.mlx);
+    mlx_loop_hook(d.mlx, key_down_hook, &d);
+    mlx_scroll_hook(d.mlx, scroll_hook, &d);
+    mlx_close_hook(d.mlx, destroy, &d);
+	mlx_loop_hook(d.mlx, render_next_frame, &d);
+	mlx_loop(d.mlx);
 	return (0);
 }

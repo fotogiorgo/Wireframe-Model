@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
+#include "../MLX42/include/MLX42/MLX42.h"
 #include <math.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <pthread.h>
-#include "../libft/libft.h"
+#include <libft.h>
 #define WINDOW_WIDTH 1920
 #define WINDOW_HEIGHT 1080
 #define RADIANT_CONV 0.01745329251
@@ -74,7 +74,8 @@ typedef	struct s_mlx_data
 
 typedef	struct s_data
 {
-	t_mlx_data	mlx;
+    mlx_t       *mlx;	
+	mlx_image_t	*img;
 	t_point		point0;
 	t_point		point1;
 	t_angles	angle;

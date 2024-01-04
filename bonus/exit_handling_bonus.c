@@ -37,7 +37,7 @@ void    free_map(int **map, int rows)
 
 void error(t_data *d)
 {
-    mlx_destroy_window(d->mlx.mlx, d->mlx.window);
+    //mlx_destroy_window(d->mlx.mlx, d->mlx.window);
     free_map(d->map->map, d->map->rows);
     free(d->map);
     exit(1);
